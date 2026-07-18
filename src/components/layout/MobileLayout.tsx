@@ -78,6 +78,8 @@ export default function MobileLayout({
 
   const currentActiveTab = () => {
     if (activeTab === "dashboard") return "profile";
+    if (activeTab === "admin") return "profile";
+    // Track which section is focused for classes/membership via scroll position
     return "home";
   };
 
@@ -139,8 +141,8 @@ export default function MobileLayout({
       {/* Main content slot */}
       <main className="flex-1 px-4 py-4">{children}</main>
 
-      {/* Floating Join Button */}
-      {!isLoggedIn || user.membership === "None" ? (
+      {/* Floating Join Button - only show if not logged in OR if logged in but no active membership */}
+      {(!isLoggedIn || (isLoggedIn && user.membership === "None")) ? (
         <button
           onClick={() => {
             setCheckoutPlan({ name: "Monthly Elite Plan", price: 1499, duration: "Month" });

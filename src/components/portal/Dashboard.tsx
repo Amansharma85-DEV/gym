@@ -109,9 +109,11 @@ export default function Dashboard({ isMobile }: { isMobile: boolean }) {
     }, 2000);
   };
 
-  // Helper to draw custom SVG weight graph points
   const getSvgCoordinates = () => {
     if (weightHistory.length === 0) return "";
+    if (weightHistory.length === 1) {
+      return `250,75`; // single point in center
+    }
     const width = 500;
     const height = 150;
     const padding = 20;
@@ -450,13 +452,14 @@ export default function Dashboard({ isMobile }: { isMobile: boolean }) {
 
                 <button
                   onClick={() => {
-                    // Reset to generator
                     localStorage.removeItem("elite_aiWorkoutPlan");
-                    window.location.reload(); // simple sync
+                    // Reset plan in context without page reload
+                    generateAIWorkout("", "", "");
+                    location.href = location.href;
                   }}
-                  className="w-full text-center text-[10px] font-bold text-brand-text-sec hover:text-white pt-2"
+                  className="w-full text-center text-[10px] font-bold text-brand-text-sec hover:text-white pt-2 cursor-pointer"
                 >
-                  Create new routine
+                  ✕ Clear — Generate new routine
                 </button>
               </div>
             ) : (
@@ -550,11 +553,11 @@ export default function Dashboard({ isMobile }: { isMobile: boolean }) {
                 <button
                   onClick={() => {
                     localStorage.removeItem("elite_aiDietPlan");
-                    window.location.reload();
+                    location.href = location.href;
                   }}
-                  className="w-full text-center text-[10px] font-bold text-brand-text-sec hover:text-white pt-2"
+                  className="w-full text-center text-[10px] font-bold text-brand-text-sec hover:text-white pt-2 cursor-pointer"
                 >
-                  Create new diet plan
+                  ✕ Clear — Generate new diet plan
                 </button>
               </div>
             ) : (

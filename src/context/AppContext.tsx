@@ -391,7 +391,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     else expiryDate.setFullYear(expiryDate.getFullYear() + 1);
 
     const expiryStr = expiryDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
-    const formattedPlan = planName.replace(" Plan", "") as UserProfile["membership"];
+
+    // Map plan display names to valid UserProfile.membership enum values
+    const planMap: Record<string, UserProfile["membership"]> = {
+      "Monthly Elite Plan": "Monthly",
+      "Yearly Pro Plan": "Yearly",
+      "VIP Premium Plan": "VIP Premium",
+    };
+    const formattedPlan: UserProfile["membership"] = planMap[planName] ?? "Monthly";
     
     const updatedUser: UserProfile = {
       ...user,
