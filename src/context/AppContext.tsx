@@ -419,6 +419,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   // AI Planner simulations
   const generateAIWorkout = (goal: string, level: string, equipment: string) => {
+    if (!goal) {
+      setAiWorkoutPlan(null);
+      localStorage.removeItem("elite_aiWorkoutPlan");
+      return { workoutPlan: undefined };
+    }
+
     // Mock response details
     const workoutsByGoal: Record<string, { day: string; target: string; exercises: string[] }[]> = {
       "Muscle Gain": [
@@ -453,6 +459,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   };
 
   const generateAIDiet = (goal: string, dietType: string, calories: number) => {
+    if (!goal) {
+      setAiDietPlan(null);
+      localStorage.removeItem("elite_aiDietPlan");
+      return { dietPlan: undefined };
+    }
+
     const protein = Math.round(calories * 0.075); // rough g protein
     const carbs = Math.round(calories * 0.1);
     const fats = Math.round(calories * 0.03);

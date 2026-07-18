@@ -306,7 +306,9 @@ export default function Dashboard({ isMobile }: { isMobile: boolean }) {
                 {weightHistory.map((item, idx) => {
                   const width = 500;
                   const padding = 20;
-                  const x = padding + (idx / (weightHistory.length - 1)) * (width - padding * 2);
+                  const x = weightHistory.length === 1 
+                    ? 250 
+                    : padding + (idx / (weightHistory.length - 1)) * (width - padding * 2);
                   return (
                     <g key={idx}>
                       <circle cx={x} cy={150 - padding - ((item.weight - Math.min(...weightHistory.map(w => w.weight)) + 1) / (Math.max(...weightHistory.map(w => w.weight)) - Math.min(...weightHistory.map(w => w.weight)) + 2)) * (150 - padding * 2)} r="4" fill="#FFB000" />
@@ -451,13 +453,8 @@ export default function Dashboard({ isMobile }: { isMobile: boolean }) {
                 </div>
 
                 <button
-                  onClick={() => {
-                    localStorage.removeItem("elite_aiWorkoutPlan");
-                    // Reset plan in context without page reload
-                    generateAIWorkout("", "", "");
-                    location.href = location.href;
-                  }}
-                  className="w-full text-center text-[10px] font-bold text-brand-text-sec hover:text-white pt-2 cursor-pointer"
+                  onClick={() => generateAIWorkout("", "", "")}
+                  className="w-full text-center text-[10px] font-bold text-brand-text-sec hover:text-white pt-2 cursor-pointer animate-pulse"
                 >
                   ✕ Clear — Generate new routine
                 </button>
@@ -551,11 +548,8 @@ export default function Dashboard({ isMobile }: { isMobile: boolean }) {
                 </div>
 
                 <button
-                  onClick={() => {
-                    localStorage.removeItem("elite_aiDietPlan");
-                    location.href = location.href;
-                  }}
-                  className="w-full text-center text-[10px] font-bold text-brand-text-sec hover:text-white pt-2 cursor-pointer"
+                  onClick={() => generateAIDiet("", "", 0)}
+                  className="w-full text-center text-[10px] font-bold text-brand-text-sec hover:text-white pt-2 cursor-pointer animate-pulse"
                 >
                   ✕ Clear — Generate new diet plan
                 </button>
